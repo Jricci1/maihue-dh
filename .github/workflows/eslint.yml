@@ -1,0 +1,37 @@
+name: ESLinter 👀
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  # Run the linter on the code
+  lint:
+    name: ESLint 🔷
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: Setup node env 🏗
+        uses: actions/setup-node@v2.4.1
+        with:
+          node-version: 14
+
+      - name: Cache node_modules 📦
+        uses: actions/cache@v2.1.6
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies 👨🏻‍💻
+        # We must be thrifty and save valuable runner minutes:
+        # --ignore-scripts If true, npm does not run scripts specified in package.json files.
+        # <https://docs.npmjs.com/cli/v6/using-npm/config#ignore-scripts>
+        run: npm ci --ignore-scripts
+
+      - name: Run linter 👀
+        run: npm run lint
