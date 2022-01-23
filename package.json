@@ -4,6 +4,10 @@
   "description": "Web application for visualizing and organizing timed races.",
   "main": "index.js",
   "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "start": "nuxt start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/Jricci1/maihue-dh/issues"
   },
-  "homepage": "https://github.com/Jricci1/maihue-dh#readme"
+  "homepage": "https://github.com/Jricci1/maihue-dh#readme",
+  "dependencies": {
+    "nuxt": "^2.15.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.7.0"
+  }
 }
