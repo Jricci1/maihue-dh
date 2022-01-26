@@ -1,0 +1,12 @@
+# Google App Engine configuration file
+# See: https://cloud.google.com/appengine/docs/standard/nodejs/config/appref
+runtime: nodejs14
+default_expiration: 1s # Expire the cache after a second
+
+# Provide handlers to serve the static files
+# See: https://cloud.google.com/appengine/docs/standard/nodejs/config/appref#handlers_element
+handlers:
+- url: /
+  static_files: dist/index.html
+  upload: dist/index.html
+  secure: always

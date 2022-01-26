@@ -1,0 +1,8 @@
+# Ignore everything...
+*
+
+# ...except the app files.
+!dist/**
+!nuxt.config.js
+!package.json
+!package-lock.json

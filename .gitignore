@@ -3,3 +3,4 @@ node_modules/**
 
 # Ignore NuxtJS specific files
 .nuxt
+dist/**
