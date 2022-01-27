@@ -3,6 +3,7 @@
     <v-container>
       <h1>Maihue - DH</h1>
     </v-container>
+    <ScoreTimer />
     <v-spacer />
     <section>
       <ScoreBoard />
