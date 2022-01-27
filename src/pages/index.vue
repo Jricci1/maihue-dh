@@ -3,7 +3,11 @@
     <v-container>
       <h1>Maihue - DH</h1>
     </v-container>
-    <ScoreTimer />
+    <div class="d-flex justify-space-around">
+      <RiderCard :rider="{}" :hot-seat="true" />
+      <ScoreTimer />
+      <RiderCard :rider="{}" />
+    </div>
     <v-spacer />
     <section>
       <ScoreBoard />
