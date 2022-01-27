@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Jricci1/maihue-dh#readme",
   "dependencies": {
+    "@nuxtjs/composition-api": "^0.31.0",
     "@vue/composition-api": "^1.4.5",
     "nuxt": "^2.15.8"
   },
