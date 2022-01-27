@@ -24,6 +24,24 @@ const addParticipant = (state, newParticipant) => {
   state.participantsOrder.push(newParticipantId);
 };
 
+const addRider = (state, newRider) => {
+  if (!state.ongoingRace) {
+    state.currentRider = newRider;
+  }
+};
+
+const setOngoingRace = (state, status) => {
+  state.ongoingRace = status;
+};
+
+const setRiderRaceTime = (state, time) => {
+  console.log(time);
+  state.currentRider.time = time;
+};
+
 export default {
   addParticipant,
+  addRider,
+  setOngoingRace,
+  setRiderRaceTime,
 };

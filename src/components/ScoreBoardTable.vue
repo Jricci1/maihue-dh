@@ -11,7 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="participantId in participantsOrder" :key="participantId">
+        <tr
+          v-for="participantId in participantsOrder"
+          :key="participantId"
+          @click="commit('addRider', participants[participantId])"
+        >
           <td>{{ participants[participantId].name }}</td>
           <td>{{ participants[participantId].nickName }}</td>
           <td>{{ participants[participantId].lastName }}</td>
@@ -25,9 +29,12 @@
 
 <script setup>
 import useMapState from "~/compositions/useMapState";
+import useStore from "~/compositions/useStore";
 
 const { participants, participantsOrder } = useMapState("scoreBoard", [
   "participants",
   "participantsOrder",
 ]);
+
+const { commit } = useStore("scoreBoard");
 </script>

@@ -12,9 +12,11 @@
 
 <script>
 import { ref } from "@vue/composition-api";
+import useStore from "~/compositions/useStore";
 
 export default {
   setup() {
+    const { commit } = useStore("scoreBoard");
     const time = ref("00:00:00.000");
     let running = false;
     let timeBegan = null;
@@ -35,12 +37,15 @@ export default {
       }
 
       started = setInterval(clockRunning, 10);
+      commit("setOngoingRace", true);
       running = true;
     }
 
     function stop() {
       running = false;
+      commit("setOngoingRace", true);
       timeStopped = new Date();
+      commit("setRiderRaceTime", time.value);
       clearInterval(started);
     }
 
