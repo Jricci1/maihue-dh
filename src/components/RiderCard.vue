@@ -10,8 +10,8 @@
       widht="200px"
     ></v-img>
 
-    <v-card-title> {{ "rider.nickname" }} </v-card-title>
-    <v-card-subtitle> {{ "rider.time" }} </v-card-subtitle>
+    <v-card-title> {{ rider.nickName }} </v-card-title>
+    <v-card-subtitle> {{ rider.time }} </v-card-subtitle>
   </v-card>
 </template>
 

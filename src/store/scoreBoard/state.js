@@ -14,4 +14,6 @@
 export default () => ({
   participants: {},
   participantsOrder: [],
+  currentRider: {},
+  hotSeat: {},
 });
