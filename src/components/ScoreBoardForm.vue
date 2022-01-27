@@ -1,12 +1,11 @@
 <template>
-  <v-form v-model="valid">
+  <v-form>
     <v-container>
       <v-row>
         <v-col cols="12" md="2">
           <v-text-field
-            v-model="firstname"
-            :rules="nameRules"
-            :counter="10"
+            v-model="name"
+            :counter="15"
             label="First name"
             required
           ></v-text-field>
@@ -14,8 +13,7 @@
 
         <v-col cols="12" md="2">
           <v-text-field
-            v-model="lastname"
-            :rules="nameRules"
+            v-model="nickName"
             :counter="10"
             label="Nickname"
             required
@@ -24,8 +22,7 @@
 
         <v-col cols="12" md="2">
           <v-text-field
-            v-model="lastname"
-            :rules="nameRules"
+            v-model="lastName"
             :counter="10"
             label="Last name"
             required
@@ -34,8 +31,7 @@
 
         <v-col cols="12" md="2">
           <v-text-field
-            v-model="lastname"
-            :rules="nameRules"
+            v-model="category"
             :counter="10"
             label="Category"
             type="number"
@@ -45,7 +41,6 @@
 
         <v-col cols="12" md="2">
           <v-file-input
-            :rules="rules"
             accept="image/png, image/jpeg, image/bmp"
             placeholder="Pick an avatar"
             prepend-icon="mdi-camera"
@@ -54,9 +49,43 @@
         </v-col>
 
         <v-col cols="12" md="2">
-          <v-btn elevation="5" color="primary"> Add </v-btn>
+          <v-btn
+            elevation="5"
+            color="primary"
+            @click="addNewParticipantToBoard"
+          >
+            Add
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
   </v-form>
 </template>
+
+<script setup>
+import { toRefs, reactive } from "@vue/composition-api";
+import useStore from "~/compositions/useStore";
+
+const { commit } = useStore("scoreBoard");
+
+const { name, nickName, lastName, avatar, category } = toRefs(
+  reactive({
+    name: null,
+    nickName: null,
+    amount: null,
+    lastName: null,
+    category: null,
+    avatar: null,
+  })
+);
+
+const addNewParticipantToBoard = () => {
+  commit("addParticipant", {
+    name: name.value,
+    nickName: nickName.value,
+    lastName: lastName.value,
+    avatar: avatar.value,
+    category: category.value,
+  });
+};
+</script>
