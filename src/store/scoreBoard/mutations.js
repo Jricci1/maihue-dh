@@ -3,7 +3,7 @@
  * score board.
  */
 
-import generateUUID from "../../utils";
+import { generateUUID } from "~/utils";
 
 /**
  * Add a new participant to the score board. It takes the newParticipant object from
@@ -15,9 +15,12 @@ import generateUUID from "../../utils";
  *
  * @param {Object} state The state of the formulas module.
  */
-const addParticipant = (state) => {
+const addParticipant = (state, newParticipant) => {
   const newParticipantId = generateUUID();
-  state.participants[newParticipantId] = { ...state.newParticipant };
+  state.participants[newParticipantId] = {
+    ...newParticipant,
+    id: newParticipantId,
+  };
   state.participantsOrder.push(newParticipantId);
 };
 
