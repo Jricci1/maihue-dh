@@ -18,7 +18,7 @@
 <script>
 export default {
   props: {
-    rider: { type: Object, required: true },
+    rider: { type: Object, required: false, default: () => ({}) },
     hotSeat: { type: Boolean, required: false, default: false },
   },
 };

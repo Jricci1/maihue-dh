@@ -4,9 +4,9 @@
       <h1>Maihue - DH</h1>
     </v-container>
     <div class="d-flex justify-space-around">
-      <RiderCard :rider="state.hotSeat.value" :hot-seat="true" />
+      <RiderCard :rider="participants[hotSeatId]" :hot-seat="true" />
       <ScoreTimer />
-      <RiderCard :rider="state.currentRider.value" />
+      <RiderCard :rider="participants[currentRiderId]" />
     </div>
     <v-spacer />
     <section>
@@ -19,8 +19,17 @@
 import useMapState from "~/compositions/useMapState";
 export default {
   setup() {
-    const state = useMapState("scoreBoard", ["currentRider", "hotSeat"]);
-    return { state };
+    const {
+      currentRider: currentRiderId,
+      hotSeat: hotSeatId,
+      participants,
+    } = useMapState("scoreBoard", ["currentRider", "hotSeat", "participants"]);
+
+    return {
+      currentRiderId,
+      hotSeatId,
+      participants,
+    };
   },
 };
 </script>
