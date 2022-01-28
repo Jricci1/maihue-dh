@@ -25,9 +25,9 @@ const addParticipant = (state, newParticipant) => {
   state.participantsOrder.push(newParticipantId);
 };
 
-const addRider = (state, newRider) => {
+const addRider = (state, newRiderId) => {
   if (!state.ongoingRace) {
-    state.currentRider = newRider;
+    state.currentRider = newRiderId;
   }
 };
 
@@ -36,8 +36,7 @@ const setOngoingRace = (state, status) => {
 };
 
 const setRiderRaceTime = (state, time) => {
-  console.log(time);
-  state.currentRider.time = time;
+  Vue.set(state.participants[state.currentRider], "time", time);
 };
 
 export default {
