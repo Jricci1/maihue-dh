@@ -3,6 +3,7 @@
  * @property {String} hotSeatParticipantId ID of the hot seat player for the compiting category.
  * @property {String} riderParticipantId ID of the rider to challenge the hot seat player for
  * the compiting category.
+ * @property {Boolean} ongoingRace Parameter to indentify is any race ongoing
  */
 
 /**
@@ -13,4 +14,5 @@
 export default () => ({
   hotSeatParticipantId: null,
   riderParticipantId: null,
+  ongoingRace: false,
 });

@@ -23,7 +23,18 @@ const setRiderSeat = (state, participantId) => {
   state.riderParticipantId = participantId;
 };
 
+/**
+ * Set the race status
+ *
+ * @param {Object} state The state of the race module.
+ * @param {Boolean} status The current state of the race.
+ */
+const setStatusRace = (state, status) => {
+  state.ongoingRace = status;
+};
+
 export default {
   setHotSeat,
   setRiderSeat,
+  setStatusRace,
 };

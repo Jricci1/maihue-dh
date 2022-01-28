@@ -12,18 +12,23 @@
 
 <script>
 import { ref } from "@vue/composition-api";
+import useMapState from "~/compositions/useMapState";
+import useStore from "~/compositions/useStore";
 
 export default {
   setup() {
+    const { commit } = useStore("race");
+    const { ongoingRace: running } = useMapState("race", ["ongoingRace"]);
+
     const time = ref("00:00:00.000");
-    let running = false;
+    commit("setStatusRace", false);
     let timeBegan = null;
     let timeStopped = null;
     let stoppedDuration = 0;
     let started = null;
 
     function start() {
-      if (running) return;
+      if (running.value) return;
 
       if (timeBegan === null) {
         reset();
@@ -35,17 +40,17 @@ export default {
       }
 
       started = setInterval(clockRunning, 10);
-      running = true;
+      commit("setStatusRace", true);
     }
 
     function stop() {
-      running = false;
+      commit("setStatusRace", false);
       timeStopped = new Date();
       clearInterval(started);
     }
 
     function reset() {
-      running = false;
+      commit("setStatusRace", false);
       clearInterval(started);
       stoppedDuration = 0;
       timeBegan = null;
