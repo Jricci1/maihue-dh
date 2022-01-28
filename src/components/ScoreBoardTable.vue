@@ -14,7 +14,7 @@
         <tr
           v-for="participantId in participantsOrder"
           :key="participantId"
-          @click="commit('addRider', participants[participantId])"
+          @click="commit('addRider', participantId)"
         >
           <td>{{ participants[participantId].name }}</td>
           <td>{{ participants[participantId].nickName }}</td>
