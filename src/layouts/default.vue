@@ -7,5 +7,6 @@
       </v-slide-y-reverse-transition>
     </v-main>
     <AppFooter />
+    <AppNotifications />
   </v-app>
 </template>
