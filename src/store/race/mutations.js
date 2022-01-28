@@ -20,7 +20,9 @@ const setHotSeat = (state, participantId) => {
  * @param {Object} participantId The ID of the hot seat challenger participant.
  */
 const setRiderSeat = (state, participantId) => {
-  state.riderParticipantId = participantId;
+  if (!state.ongoingRace) {
+    state.riderParticipantId = participantId;
+  }
 };
 
 /**
