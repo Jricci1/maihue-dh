@@ -14,10 +14,25 @@
  * @param {Object} state.rootState The root state of the vuex store with access to other modules.
  * @param {Object} state.commit The function for calling the state mutations.
  */
-const setRider = ({ rootState, commit }, riderIndex) => {
+const setRider = ({ rootState, commit, dispatch }, riderId) => {
   const scoreBoardStore = rootState.scoreBoard;
-  const riderId = scoreBoardStore.participantsOrder[riderIndex];
   const riderCategory = scoreBoardStore.participants[riderId].category;
+
+  dispatch("setHotSeatRider", { riderCategory });
+  commit("setRiderSeat", riderId);
+};
+
+/**
+ * sets the hot seat rider from the corresponding category of
+ * the challenger rider.
+ *
+ *
+ * @param {Object} state The state of the formulas module.
+ * @param {Object} state.rootState The root state of the vuex store with access to other modules.
+ * @param {Object} state.commit The function for calling the state mutations.
+ */
+const setHotSeatRider = ({ rootState, commit }, { riderCategory }) => {
+  const scoreBoardStore = rootState.scoreBoard;
   const hotSeatRider = scoreBoardStore.participantsOrder.find(
     (participanId) => {
       const potentialHotSeat = scoreBoardStore.participants[participanId];
@@ -27,14 +42,42 @@ const setRider = ({ rootState, commit }, riderIndex) => {
       if (potentialHotSeat.category != riderCategory) {
         return false;
       }
-      if (potentialHotSeat.id === riderId) return false;
       return true;
     }
   );
   commit("setHotSeat", hotSeatRider);
-  commit("setRiderSeat", riderId);
+};
+
+/**
+ * Add the race time to the rider. After set the time, participantsOrder is sort
+ * with  the new time of the rider.
+ *
+ * Check the state documentation for more details about it.
+ * @param {Object} state The state of the formulas module.
+ * @param {Object} commit The function for calling the state mutations.
+ * @param {string} time Time did by the rider.
+ */
+const setRiderTime = ({ state, commit }, time) => {
+  commit(
+    "scoreBoard/setRiderTime",
+    {
+      riderId: state.riderParticipantId,
+      time,
+    },
+    { root: true }
+  );
+  commit(
+    "scoreBoard/sortParticpants",
+    {
+      riderId: state.riderParticipantId,
+      time,
+    },
+    { root: true }
+  );
 };
 
 export default {
   setRider,
+  setRiderTime,
+  setHotSeatRider,
 };
