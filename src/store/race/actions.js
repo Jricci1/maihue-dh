@@ -17,6 +17,22 @@
 const setRider = ({ rootState, commit, dispatch }, riderId) => {
   const scoreBoardStore = rootState.scoreBoard;
   const riderCategory = scoreBoardStore.participants[riderId].category;
+
+  dispatch("setHotSeatRider", { riderCategory });
+  commit("setRiderSeat", riderId);
+};
+
+/**
+ * sets the hot seat rider from the corresponding category of
+ * the challenger rider.
+ *
+ *
+ * @param {Object} state The state of the formulas module.
+ * @param {Object} state.rootState The root state of the vuex store with access to other modules.
+ * @param {Object} state.commit The function for calling the state mutations.
+ */
+const setHotSeatRider = ({ rootState, commit }, { riderCategory }) => {
+  const scoreBoardStore = rootState.scoreBoard;
   const hotSeatRider = scoreBoardStore.participantsOrder.find(
     (participanId) => {
       const potentialHotSeat = scoreBoardStore.participants[participanId];
@@ -26,12 +42,10 @@ const setRider = ({ rootState, commit, dispatch }, riderId) => {
       if (potentialHotSeat.category != riderCategory) {
         return false;
       }
-      if (potentialHotSeat.id === riderId) return false;
       return true;
     }
   );
   commit("setHotSeat", hotSeatRider);
-  commit("setRiderSeat", riderId);
 };
 
 /**
@@ -65,4 +79,5 @@ const setRiderTime = ({ state, commit }, time) => {
 export default {
   setRider,
   setRiderTime,
+  setHotSeatRider,
 };

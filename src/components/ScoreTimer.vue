@@ -29,12 +29,16 @@ import useStore from "~/compositions/useStore";
 
 export default {
   setup() {
-    const { setRiderTime } = useMapActions("race", ["setRiderTime"]);
+    const { setRiderTime, setHotSeatRider } = useMapActions("race", [
+      "setRiderTime",
+      "setHotSeatRider",
+    ]);
     const { commit } = useStore("race");
     const { ongoingRace: running, riderParticipantId } = useMapState("race", [
       "ongoingRace",
       "riderParticipantId",
     ]);
+    const { participants } = useMapState("scoreBoard", ["participants"]);
 
     const time = ref("00:00:00.000");
     commit("setStatusRace", false);
@@ -102,6 +106,9 @@ export default {
 
     function saveRiderTimer() {
       setRiderTime(time.value);
+      setHotSeatRider({
+        riderCategory: participants.value[riderParticipantId.value].category,
+      });
       reset();
     }
 
