@@ -35,6 +35,35 @@ const setRider = ({ rootState, commit }, riderIndex) => {
   commit("setRiderSeat", riderId);
 };
 
+/**
+ * Add the race time to the rider. After set the time, participantsOrder is sort
+ * with  the new time of the rider.
+ *
+ * Check the state documentation for more details about it.
+ * @param {Object} state The state of the formulas module.
+ * @param {Object} commit The function for calling the state mutations.
+ * @param {string} time Time did by the rider.
+ */
+const setRiderTime = ({ state, commit }, time) => {
+  commit(
+    "scoreBoard/setRiderTime",
+    {
+      riderId: state.riderParticipantId,
+      time,
+    },
+    { root: true }
+  );
+  commit(
+    "scoreBoard/sortParticpants",
+    {
+      riderId: state.riderParticipantId,
+      time,
+    },
+    { root: true }
+  );
+};
+
 export default {
   setRider,
+  setRiderTime,
 };

@@ -1,24 +1,40 @@
 <template>
   <div id="clock" class="d-flex flex-column align-center">
     <div class="text-h1 mb-4">{{ time }}</div>
-
-    <div class="btn-container">
-      <v-btn @click="start">Start</v-btn>
-      <v-btn @click="stop">Stop</v-btn>
-      <v-btn @click="reset">Reset</v-btn>
+    <div class="text-center">
+      <v-btn :disabled="!riderParticipantId" class="ma-2" @click="start"
+        >Start</v-btn
+      >
+      <v-btn class="ma-2" color="primary" @click="stop">Stop</v-btn>
+      <v-btn class="ma-2" color="error" @click="reset">Reset</v-btn>
     </div>
+    <v-row>
+      <v-btn
+        :disabled="!riderParticipantId"
+        min-width="200"
+        class="mt-4 ma-2"
+        color="success"
+        @click="saveRiderTimer"
+        >Save</v-btn
+      >
+    </v-row>
   </div>
 </template>
 
 <script>
 import { ref } from "@vue/composition-api";
+import useMapActions from "~/compositions/useMapActions";
 import useMapState from "~/compositions/useMapState";
 import useStore from "~/compositions/useStore";
 
 export default {
   setup() {
+    const { setRiderTime } = useMapActions("race", ["setRiderTime"]);
     const { commit } = useStore("race");
-    const { ongoingRace: running } = useMapState("race", ["ongoingRace"]);
+    const { ongoingRace: running, riderParticipantId } = useMapState("race", [
+      "ongoingRace",
+      "riderParticipantId",
+    ]);
 
     const time = ref("00:00:00.000");
     commit("setStatusRace", false);
@@ -84,7 +100,12 @@ export default {
       return (zero + num).slice(-digit);
     }
 
-    return { time, start, stop, reset };
+    function saveRiderTimer() {
+      setRiderTime(time.value);
+      reset();
+    }
+
+    return { time, start, stop, reset, saveRiderTimer, riderParticipantId };
   },
 };
 </script>

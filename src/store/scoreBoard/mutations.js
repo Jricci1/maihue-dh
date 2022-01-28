@@ -25,6 +25,31 @@ const addParticipant = (state, newParticipant) => {
   state.participantsOrder.push(newParticipantId);
 };
 
+const setRiderTime = (state, { riderId, time }) => {
+  Vue.set(state.participants[riderId], "time", time);
+};
+
+const sortParticpants = (state) => {
+  state.participantsOrder.sort((a, b) => {
+    // a < b => -1
+    // a > b => 1
+    // a == b => 0
+    if (!state.participants[a].time) {
+      // In this case, "b" is grather than "a" because is after in the array
+      return 1;
+    }
+    if (!state.participants[b].time) {
+      // In this case, "a" is grather than "b" because it does not have time
+      return -1;
+    }
+    // It is not neccesary to have equal values, so if "a" is greater than or equa to "b", "a"
+    // is returned as the bigger elemente of the comparision
+    return state.participants[b].time > state.participants[a].time ? -1 : 1;
+  });
+};
+
 export default {
   addParticipant,
+  setRiderTime,
+  sortParticpants,
 };
