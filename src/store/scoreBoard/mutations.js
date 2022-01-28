@@ -4,6 +4,7 @@
  */
 
 import { generateUUID } from "~/utils";
+import Vue from "vue";
 
 /**
  * Add a new participant to the score board. It takes the newParticipant object from
@@ -17,10 +18,10 @@ import { generateUUID } from "~/utils";
  */
 const addParticipant = (state, newParticipant) => {
   const newParticipantId = generateUUID();
-  state.participants[newParticipantId] = {
+  Vue.set(state.participants, newParticipantId, {
     ...newParticipant,
     id: newParticipantId,
-  };
+  });
   state.participantsOrder.push(newParticipantId);
 };
 
