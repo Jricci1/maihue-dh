@@ -11,7 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="participantId in participantsOrder" :key="participantId">
+        <tr
+          v-for="(participantId, index) in participantsOrder"
+          :key="participantId"
+          @click="onParticipantClick(index)"
+        >
           <td>{{ participants[participantId].name }}</td>
           <td>{{ participants[participantId].nickName }}</td>
           <td>{{ participants[participantId].lastName }}</td>
@@ -25,6 +29,13 @@
 
 <script setup>
 import useMapState from "~/compositions/useMapState";
+import useMapActions from "~/compositions/useMapActions";
+
+const { setRider } = useMapActions("race", ["setRider"]);
+
+const onParticipantClick = (index) => {
+  setRider(index);
+};
 
 const { participants, participantsOrder } = useMapState("scoreBoard", [
   "participants",

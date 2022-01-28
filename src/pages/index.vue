@@ -4,9 +4,9 @@
       <h1>Maihue - DH</h1>
     </v-container>
     <div class="d-flex justify-space-around">
-      <RiderCard :rider="{}" :hot-seat="true" />
+      <RiderCard :hot-seat="true" />
       <ScoreTimer />
-      <RiderCard :rider="{}" />
+      <RiderCard />
     </div>
     <v-spacer />
     <section>

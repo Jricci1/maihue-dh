@@ -86,7 +86,6 @@ const { form, fileUpload, name, nickName, lastName, avatar, category } = toRefs(
 const categoryRules = [(v) => !!v || "Required field"];
 
 const validateForm = () => {
-  console.log(form.value.validate());
   if (form.value.validate()) {
     if (!(name.value || nickName.value || lastName.value)) {
       notify.info("Please provide a Name, Nickname or Last name.");
@@ -98,13 +97,11 @@ const validateForm = () => {
 };
 
 const createAvatarLocalUrl = (file) => {
-  console.log(file);
   if (!file) {
     avatar.value = null;
     return;
   }
   const imageUrl = URL.createObjectURL(file);
-  console.log(imageUrl);
   avatar.value = imageUrl;
 };
 
@@ -116,6 +113,7 @@ const addNewParticipantToBoard = () => {
       lastName: lastName.value,
       avatar: avatar.value,
       category: category.value,
+      time: null,
     });
     resetForm();
     form.value.resetValidation();

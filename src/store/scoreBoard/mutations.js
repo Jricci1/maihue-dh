@@ -13,7 +13,7 @@ import { generateUUID } from "~/utils";
  *
  * Check the state documentation for more details about it.
  *
- * @param {Object} state The state of the formulas module.
+ * @param {Object} state The state of the scoreBoard module.
  */
 const addParticipant = (state, newParticipant) => {
   const newParticipantId = generateUUID();
