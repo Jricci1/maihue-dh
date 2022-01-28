@@ -3,9 +3,9 @@
     <div class="text-h1 mb-4">{{ time }}</div>
 
     <div class="btn-container">
-      <v-btn @click="start">Start</v-btn>
-      <v-btn @click="stop">Stop</v-btn>
-      <v-btn @click="reset">Reset</v-btn>
+      <v-btn :disabled="!currentRider" @click="start">Start</v-btn>
+      <v-btn :disabled="!currentRider" @click="stop">Stop</v-btn>
+      <v-btn :disabled="!currentRider" @click="reset">Reset</v-btn>
     </div>
   </div>
 </template>
@@ -13,54 +13,48 @@
 <script>
 import { ref } from "@vue/composition-api";
 import useStore from "~/compositions/useStore";
+import useMapState from "../compositions/useMapState";
 
 export default {
   setup() {
+    const { ongoingRace, currentRider } = useMapState("scoreBoard", [
+      "ongoingRace",
+      "currentRider",
+    ]);
     const { commit } = useStore("scoreBoard");
     const time = ref("00:00:00.000");
-    let running = false;
     let timeBegan = null;
-    let timeStopped = null;
-    let stoppedDuration = 0;
     let started = null;
 
     function start() {
-      if (running) return;
+      if (ongoingRace.value) return;
 
       if (timeBegan === null) {
         reset();
         timeBegan = new Date();
       }
 
-      if (timeStopped !== null) {
-        stoppedDuration += new Date() - timeStopped;
-      }
-
       started = setInterval(clockRunning, 10);
       commit("setOngoingRace", true);
-      running = true;
     }
 
     function stop() {
-      running = false;
-      commit("setOngoingRace", true);
-      timeStopped = new Date();
+      timeBegan = null;
+      commit("setOngoingRace", false);
       commit("setRiderRaceTime", time.value);
       clearInterval(started);
     }
 
     function reset() {
-      running = false;
+      commit("setOngoingRace", false);
       clearInterval(started);
-      stoppedDuration = 0;
       timeBegan = null;
-      timeStopped = null;
       time.value = "00:00:00.000";
     }
 
     function clockRunning() {
       var currentTime = new Date(),
-        timeElapsed = new Date(currentTime - timeBegan - stoppedDuration),
+        timeElapsed = new Date(currentTime - timeBegan),
         hour = timeElapsed.getUTCHours(),
         min = timeElapsed.getUTCMinutes(),
         sec = timeElapsed.getUTCSeconds(),
@@ -84,7 +78,7 @@ export default {
       return (zero + num).slice(-digit);
     }
 
-    return { time, start, stop, reset };
+    return { time, start, stop, reset, currentRider };
   },
 };
 </script>
