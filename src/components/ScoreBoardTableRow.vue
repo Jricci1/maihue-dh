@@ -4,9 +4,7 @@
     <td>{{ nickName }}</td>
     <td>{{ lastName }}</td>
     <td>{{ category }}</td>
-    <td>
-      {{ time }}
-    </td>
+    <td>{{ time }}</td>
   </tr>
 </template>
 
