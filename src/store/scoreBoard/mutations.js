@@ -17,13 +17,22 @@ import { generateUUID } from "~/utils";
  */
 const addParticipant = (state, newParticipant) => {
   const newParticipantId = generateUUID();
-  state.participants[newParticipantId] = {
-    ...newParticipant,
-    id: newParticipantId,
+  state.participants = {
+    ...state.participants,
+    [newParticipantId]: { ...newParticipant, id: newParticipantId },
   };
-  state.participantsOrder.push(newParticipantId);
+};
+
+/**
+ * Add participant's time into the score board.
+ *
+ * @param {Object} state The state of the scoreBoard module.
+ */
+const addParticipantTime = (state, { participantId, time }) => {
+  state.participants[participantId].time = time;
 };
 
 export default {
   addParticipant,
+  addParticipantTime,
 };

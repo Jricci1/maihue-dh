@@ -23,16 +23,18 @@
 
 <script setup>
 import useMapState from "~/compositions/useMapState";
+import useMapGetters from "~/compositions/useMapGetters";
 import useMapActions from "~/compositions/useMapActions";
 
 const { setRider } = useMapActions("race", ["setRider"]);
+
+const { participantsOrder } = useMapGetters("scoreBoard", [
+  "participantsOrder",
+]);
 
 const onParticipantClick = (index) => {
   setRider(index);
 };
 
-const { participants, participantsOrder } = useMapState("scoreBoard", [
-  "participants",
-  "participantsOrder",
-]);
+const { participants } = useMapState("scoreBoard", ["participants"]);
 </script>

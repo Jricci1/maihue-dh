@@ -14,21 +14,21 @@
  * @param {Object} state.rootState The root state of the vuex store with access to other modules.
  * @param {Object} state.commit The function for calling the state mutations.
  */
-const setRider = ({ rootState, commit }, riderId) => {
+const setRider = ({ rootState, commit, rootGetters }, riderId) => {
   const scoreBoardStore = rootState.scoreBoard;
+  const scoreBoardParticipantsOrder =
+    rootGetters["scoreBoard/participantsOrder"];
   const riderCategory = scoreBoardStore.participants[riderId].category;
-  const hotSeatRider = scoreBoardStore.participantsOrder.find(
-    (participanId) => {
-      const potentialHotSeat = scoreBoardStore.participants[participanId];
-      if (!potentialHotSeat.time) {
-        return false;
-      }
-      if (potentialHotSeat.category != riderCategory) {
-        return false;
-      }
-      return true;
+  const hotSeatRider = scoreBoardParticipantsOrder.find((participanId) => {
+    const potentialHotSeat = scoreBoardStore.participants[participanId];
+    if (!potentialHotSeat.time) {
+      return false;
     }
-  );
+    if (potentialHotSeat.category != riderCategory) {
+      return false;
+    }
+    return true;
+  });
   commit("setHotSeat", hotSeatRider);
   commit("setRiderSeat", riderId);
 };
