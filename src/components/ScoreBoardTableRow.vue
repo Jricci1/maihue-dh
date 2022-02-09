@@ -27,7 +27,6 @@ const onParticipantClick = () => {
 };
 
 const { participants } = useMapState("scoreBoard", ["participants"]);
-console.log(participants);
 const { name, nickName, lastName, category, time } = toRefs(
   reactive(participants.value[props.participantId])
 );

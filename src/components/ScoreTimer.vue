@@ -1,7 +1,20 @@
 <template>
   <div id="clock" class="d-flex flex-column align-center">
-    <div class="text-h1 mb-4">{{ hotSeatTime }}</div>
-    <div class="text-h1 mb-4">{{ time }}</div>
+    <div class="text-h1 mb-4">
+      {{ hotSeatTime }}
+    </div>
+    <div
+      class="text-h1 mb-4"
+      :class="[
+        hotSeatTime === '00:00:00.000'
+          ? ''
+          : hotSeatTime > time
+          ? 'green-color'
+          : 'red-color',
+      ]"
+    >
+      {{ time }}
+    </div>
 
     <div class="btn-container">
       <v-row>
@@ -25,22 +38,21 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/composition-api";
+import { ref, computed } from "@vue/composition-api";
 import useMapGetters from "~/compositions/useMapGetters";
 import useStore from "~/compositions/useStore";
 
 const { commit } = useStore("scoreBoard");
+const raceStore = useStore("race");
 
 const { hotSeatRider, challengerRider } = useMapGetters("race", [
   "hotSeatRider",
   "challengerRider",
 ]);
 
-let hotSeatTime = "00:00:00.000";
-
-if (hotSeatRider.time) {
-  hotSeatTime = hotSeatRider.time;
-}
+const hotSeatTime = computed(() => {
+  return hotSeatRider.value ? hotSeatRider.value.time : "00:00:00.000";
+});
 
 const time = ref("00:00:00.000");
 let running = false;
@@ -107,9 +119,26 @@ function zeroPrefix(num, digit) {
 }
 
 function add() {
+  if (!challengerRider.value) {
+    return;
+  }
   commit("addParticipantTime", {
     participantId: challengerRider.value.id,
     time: time.value,
   });
+  if (time.value < hotSeatTime || !hotSeatRider.value) {
+    raceStore.commit("setHotSeat", challengerRider.value.id);
+  }
+  raceStore.commit("setRiderSeat", null);
+  reset();
 }
 </script>
+<style scoped>
+.red-color {
+  color: red;
+}
+
+.green-color {
+  color: green;
+}
+</style>
