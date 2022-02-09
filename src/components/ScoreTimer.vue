@@ -1,85 +1,115 @@
 <template>
   <div id="clock" class="d-flex flex-column align-center">
+    <div class="text-h1 mb-4">{{ hotSeatTime }}</div>
     <div class="text-h1 mb-4">{{ time }}</div>
 
     <div class="btn-container">
-      <v-btn @click="start">Start</v-btn>
-      <v-btn @click="stop">Stop</v-btn>
-      <v-btn @click="reset">Reset</v-btn>
+      <v-row>
+        <v-col>
+          <v-btn color="green" @click="start">Start</v-btn>
+        </v-col>
+        <v-col>
+          <v-btn color="red" @click="stop">Stop</v-btn>
+        </v-col>
+        <v-col>
+          <v-btn color="yellow" @click="reset">Reset</v-btn>
+        </v-col>
+      </v-row>
+      <v-row class="d-flex max-w-full">
+        <v-col>
+          <v-btn block @click="add">Add</v-btn>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "@vue/composition-api";
+import useMapGetters from "~/compositions/useMapGetters";
+import useStore from "~/compositions/useStore";
 
-export default {
-  setup() {
-    const time = ref("00:00:00.000");
-    let running = false;
-    let timeBegan = null;
-    let timeStopped = null;
-    let stoppedDuration = 0;
-    let started = null;
+const { commit } = useStore("scoreBoard");
 
-    function start() {
-      if (running) return;
+const { hotSeatRider, challengerRider } = useMapGetters("race", [
+  "hotSeatRider",
+  "challengerRider",
+]);
 
-      if (timeBegan === null) {
-        reset();
-        timeBegan = new Date();
-      }
+let hotSeatTime = "00:00:00.000";
 
-      if (timeStopped !== null) {
-        stoppedDuration += new Date() - timeStopped;
-      }
+if (hotSeatRider.time) {
+  hotSeatTime = hotSeatRider.time;
+}
 
-      started = setInterval(clockRunning, 10);
-      running = true;
-    }
+const time = ref("00:00:00.000");
+let running = false;
+let timeBegan = null;
+let timeStopped = null;
+let stoppedDuration = 0;
+let started = null;
 
-    function stop() {
-      running = false;
-      timeStopped = new Date();
-      clearInterval(started);
-    }
+function start() {
+  if (running) return;
 
-    function reset() {
-      running = false;
-      clearInterval(started);
-      stoppedDuration = 0;
-      timeBegan = null;
-      timeStopped = null;
-      time.value = "00:00:00.000";
-    }
+  if (timeBegan === null) {
+    reset();
+    timeBegan = new Date();
+  }
 
-    function clockRunning() {
-      var currentTime = new Date(),
-        timeElapsed = new Date(currentTime - timeBegan - stoppedDuration),
-        hour = timeElapsed.getUTCHours(),
-        min = timeElapsed.getUTCMinutes(),
-        sec = timeElapsed.getUTCSeconds(),
-        ms = timeElapsed.getUTCMilliseconds();
+  if (timeStopped !== null) {
+    stoppedDuration += new Date() - timeStopped;
+  }
 
-      time.value =
-        zeroPrefix(hour, 2) +
-        ":" +
-        zeroPrefix(min, 2) +
-        ":" +
-        zeroPrefix(sec, 2) +
-        "." +
-        zeroPrefix(ms, 3);
-    }
+  started = setInterval(clockRunning, 10);
+  running = true;
+}
 
-    function zeroPrefix(num, digit) {
-      var zero = "";
-      for (var i = 0; i < digit; i++) {
-        zero += "0";
-      }
-      return (zero + num).slice(-digit);
-    }
+function stop() {
+  running = false;
+  timeStopped = new Date();
+  clearInterval(started);
+}
 
-    return { time, start, stop, reset };
-  },
-};
+function reset() {
+  running = false;
+  clearInterval(started);
+  stoppedDuration = 0;
+  timeBegan = null;
+  timeStopped = null;
+  time.value = "00:00:00.000";
+}
+
+function clockRunning() {
+  var currentTime = new Date(),
+    timeElapsed = new Date(currentTime - timeBegan - stoppedDuration),
+    hour = timeElapsed.getUTCHours(),
+    min = timeElapsed.getUTCMinutes(),
+    sec = timeElapsed.getUTCSeconds(),
+    ms = timeElapsed.getUTCMilliseconds();
+
+  time.value =
+    zeroPrefix(hour, 2) +
+    ":" +
+    zeroPrefix(min, 2) +
+    ":" +
+    zeroPrefix(sec, 2) +
+    "." +
+    zeroPrefix(ms, 3);
+}
+
+function zeroPrefix(num, digit) {
+  var zero = "";
+  for (var i = 0; i < digit; i++) {
+    zero += "0";
+  }
+  return (zero + num).slice(-digit);
+}
+
+function add() {
+  commit("addParticipantTime", {
+    participantId: challengerRider.value.id,
+    time: time.value,
+  });
+}
 </script>
