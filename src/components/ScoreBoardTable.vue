@@ -11,17 +11,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="(participantId, index) in participantsOrder"
+        <ScoreBoardTableRow
+          v-for="participantId in participantsOrder"
           :key="participantId"
-          @click="onParticipantClick(index)"
-        >
-          <td>{{ participants[participantId].name }}</td>
-          <td>{{ participants[participantId].nickName }}</td>
-          <td>{{ participants[participantId].lastName }}</td>
-          <td>{{ participants[participantId].category }}</td>
-          <td>{{ participants[participantId].time }}</td>
-        </tr>
+          :participant-id="participantId"
+        />
       </tbody>
     </template>
   </v-simple-table>
