@@ -27,14 +27,11 @@
         </v-col>
 
         <v-col cols="12" md="2">
-          <v-text-field
+          <v-combobox
             v-model="category"
-            :counter="10"
-            :rules="categoryRules"
+            :items="['Open Hombre', 'Open Mujeres', 'Kids']"
             label="Category"
-            type="number"
-            required
-          ></v-text-field>
+          ></v-combobox>
         </v-col>
 
         <v-col cols="12" md="2">

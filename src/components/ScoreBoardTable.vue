@@ -8,6 +8,7 @@
           <th class="text-left">Last name</th>
           <th class="text-left">Category</th>
           <th class="text-left">Time (HH:MM:SS:mm)</th>
+          <th class="text-left"></th>
         </tr>
       </thead>
       <tbody>
