@@ -5,11 +5,7 @@
     </v-card-text>
 
     <v-img
-      :src="
-        rider
-          ? rider.avatar
-          : 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'
-      "
+      :src="rider ? rider.avatar : require('~/assets/img/minion.jpg')"
       height="200px"
       widht="200px"
     ></v-img>
@@ -38,7 +34,6 @@ const rider = computed(() =>
 );
 
 const riderName = computed(() => {
-  console.log(rider);
   return rider.value
     ? `${rider.value.name} "${rider.value.nickName}" ${rider.value.lastName}`
     : "";
