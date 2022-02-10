@@ -14,7 +14,7 @@
       widht="200px"
     ></v-img>
 
-    <v-card-title> {{ rider ? rider.nickName : "" }} </v-card-title>
+    <v-card-title class="justify-center"> {{ riderName }} </v-card-title>
     <v-card-subtitle> {{ rider ? rider.time : "" }} </v-card-subtitle>
   </v-card>
 </template>
@@ -36,4 +36,11 @@ const { hotSeatRider, challengerRider } = useMapGetters("race", [
 const rider = computed(() =>
   props.hotSeat ? hotSeatRider.value : challengerRider.value
 );
+
+const riderName = computed(() => {
+  console.log(rider);
+  return rider.value
+    ? `${rider.value.name} "${rider.value.nickName}" ${rider.value.lastName}`
+    : "";
+});
 </script>
